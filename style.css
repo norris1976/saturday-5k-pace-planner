@@ -52,3 +52,16 @@ textarea { margin-top:10px; font-family:ui-monospace, Menlo, Consolas, monospace
 a { color:var(--ink); text-decoration-color:var(--gold); text-decoration-thickness:2px; text-underline-offset:3px; } @media (prefers-color-scheme: dark) { a { color:var(--gold); } }
 footer { text-align:center; color:var(--muted); font-size:13px; padding:8px 12px 28px; }
 @media (prefers-reduced-motion: no-preference) { button { transition: transform .08s; } button:active { transform:scale(.98); } }
+
+/* Input card: white so it stands out from the near-black page. Same in light and dark themes. */
+#form { --card:#ffffff; --ink:#131311; --muted:#4f4b40; --line:#77725f; color:var(--ink); color-scheme:light;
+  background:#ffffff; border:1px solid #cfc9b8; border-top:4px solid var(--gold); box-shadow:0 8px 28px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.6) inset; }
+@media (prefers-color-scheme: light) { #form { box-shadow:0 6px 22px rgba(20,18,10,.14); border-color:#cfc9b8; } }
+#form h2 { color:#3d3a31; }
+#form input, #form select { background:#ffffff; color:#131311; border:1.5px solid #77725f; }
+#form input::placeholder { color:#6b6657; opacity:1; }
+#form input:hover, #form select:hover { border-color:#131311; }
+#form input:focus, #form select:focus { border-color:#131311; outline:3px solid var(--gold); outline-offset:1px; box-shadow:0 0 0 1px #131311; }
+#form button:focus-visible { outline:3px solid #131311; outline-offset:2px; box-shadow:0 0 0 5px var(--gold); }
+#form button.primary { background:#131311; color:var(--gold); border-color:#131311; }
+#form .msg.error { color:#a3201a; border-color:#a3201a; }
