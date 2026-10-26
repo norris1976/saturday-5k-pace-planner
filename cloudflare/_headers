@@ -1,0 +1,9 @@
+# Cloudflare Pages headers. Mirrors vercel.json (CSP, nosniff, referrer policy) plus the
+# HSTS and revalidation behaviour Vercel applied by default. Keep in step with vercel.json.
+# no-transform stops Cloudflare injecting its Web Analytics beacon (the page promises no analytics).
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Strict-Transport-Security: max-age=63072000
+  Cache-Control: public, max-age=0, must-revalidate, no-transform

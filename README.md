@@ -6,7 +6,7 @@ Enter a 5K PB (or recent time), your age, the age-grading category, a target tim
 2. **Per-km target splits** for 5 km, adjusted for the course (flat, rolling, hilly or your own per-km elevation list) with a positive, even or negative split. Splits are whole seconds and add up **exactly** to your target; each row shows split (= pace per km), pace per mile and cumulative time.
 3. A **shareable result card**: a downloadable PNG (drawn on a canvas) and copyable text.
 
-Works for any 5K, including weekly timed runs. It runs entirely in your browser: no login, no analytics, no scraping, no network calls (the Vercel config sets a Content-Security-Policy with `connect-src 'none'`).
+Works for any 5K, including weekly timed runs. It runs entirely in your browser: no login, no analytics, no scraping, no network calls (the host sends a Content-Security-Policy with `connect-src 'none'`: `cloudflare/_headers` on Cloudflare Pages, `vercel.json` on Vercel).
 
 Part of **Sport Builds**, one vibe-coded sports app a week. Build notes and honest failure log: [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
 
@@ -64,3 +64,15 @@ docs/                      BUILD_LOG.md, screenshots
 ```
 
 Code: MIT. Age-grade data: CC0 1.0.
+
+## Hosting and deploying
+
+Live at https://5k.sportbuilds.co, served by **Cloudflare Pages** (direct-upload project `saturday-5k-pace-planner`, production branch `main`). The Vercel project of the same name is kept as a spare; its `vercel.app` URL still works and `vercel.json` is kept in step.
+
+```bash
+export CLOUDFLARE_API_TOKEN=...      # needs Account > Cloudflare Pages > Edit. Never commit or log it
+export CLOUDFLARE_ACCOUNT_ID=...
+npm run deploy:pages                 # build:pages -> tests -> wrangler pages deploy
+```
+
+`npm run build:pages` copies `index.html`, `style.css`, `src/` and `cloudflare/_headers` into `dist/` (git-ignored). The security headers (CSP, nosniff, referrer policy, HSTS, `Cache-Control: ... no-transform`) live in `cloudflare/_headers`; change them there and in `vercel.json` together. `no-transform` stops Cloudflare injecting its Web Analytics beacon, so the "no analytics" claim stays true.

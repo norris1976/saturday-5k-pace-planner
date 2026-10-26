@@ -8,6 +8,8 @@
   "scripts": {
     "gen-data": "node tools/gen-data.mjs",
     "test": "node test/run.mjs",
-    "start": "npx --yes serve -l 5173 ."
+    "start": "npx --yes serve -l 5173 .",
+    "build:pages": "node tools/build-pages.mjs",
+    "deploy:pages": "npm run build:pages && npm test && npx --yes wrangler@4.86.0 pages deploy dist --project-name saturday-5k-pace-planner --branch main --commit-dirty=true"
   }
 }
