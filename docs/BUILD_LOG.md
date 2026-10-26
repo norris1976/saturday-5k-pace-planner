@@ -41,3 +41,34 @@ What broke / what I fixed:
 3. **A tooling gotcha (not an app bug):** I re-ran the screenshot after fixing the card and looked at the file, but my image viewer returned the *old* picture because it cached by file path. I only noticed because the "fix" showed no change while the file timestamp was new. Lesson: view re-rendered screenshots under a new filename.
 4. **Copy-to-clipboard check was a false negative:** my script read the status text before the async clipboard write finished. Added a wait for the status message.
 5. Band label for scores under 60% was "keep building", which reads as patronising. Changed to "under 60%".
+6. Elevation column wrapped ("+8 / m") on a 390px screen; fixed with `white-space: nowrap` on table cells.
+7. The word for the weekly-timed-run brand must not appear anywhere in the repo. My own tests/guards contained it as a literal string, so I rewrote the guard regex so the repo no longer contains the word at all (a `grep -ri` over the repo now finds nothing).
+
+## Stage 5: GitHub + Vercel (08:29 to 08:31)
+Instruction used: "Create a public repo under norris1976 and push; create a Vercel project linked to it and deploy to production; verify the public URL without auth."
+- Auth found on the box: `gh` already logged in as `norris1976`; Vercel CLI logged in to Tim's team ("Tim Norris' projects", same team as Half-Time Pulse). No credentials were printed or copied anywhere.
+- `gh repo create norris1976/saturday-5k-pace-planner --public --push`: worked first time.
+- `vercel link` created the project and **auto-connected the GitHub repo**; `vercel deploy --prod` took about 5 s (no build step, static files).
+- **Gotcha worth a line in the newsletter:** the project's Vercel Authentication setting is "all deployments except custom domains". The per-deployment URL (`...-gz7fbyw7p-nozza-dev-projects.vercel.app`) returns **302** to a login page, but the production alias `saturday-5k-pace-planner.vercel.app` returns **200** with no auth. The public link to share is the production alias. I did not change the project's protection setting.
+- `vercel link` also dropped a `.env.local` with an OIDC token into the folder. It was auto-added to `.gitignore` (`.env*`) and is not committed. Checked with `git status` before every commit.
+
+## Stage 6: live verification (08:30)
+- Same headless-Chrome script run against the production URL: loaded, entered a sample run (24:30 PB, 23:45 target, age 42, men's category, rolling, negative), results rendered, splits sum to 23:45, PNG download is a real PNG (89504E47 signature), clipboard copy works, custom-elevation and validation error paths work, **0 external requests, 0 console errors**.
+- Sample result: age grade 57.8% (target) vs 56.0% (PB); splits 4:57, 4:42, 4:51, 4:37, 4:38 (km 3 is the last climb; km 4 and 5 are the downhill and flat finish).
+
+## Timings
+| Stage | Start | End | Notes |
+|---|---|---|---|
+| 0 Kickoff + env check | 08:22 | 08:22 | gh/Vercel already authenticated |
+| 1 Source + licence research | 08:22 | 08:27 | longest stage by wall-clock; most of it was ruling sources out |
+| 2-3 Design + code + tests | 08:27 | 08:28 | 21 tests green first time |
+| 4 UI + headless checks + fixes | 08:28 | 08:29 | 5 small fixes |
+| 5 GitHub + Vercel | 08:29 | 08:31 | |
+| 6 Live verify + docs | 08:30 | see final entry | |
+
+## Decisions and honest caveats (for the newsletter)
+- **Not a "WMA" table, strictly.** Age-grade data is the 2025 road tables by Alan Jones (CC0), approved by USATF's MLDR; it continues the WMA/USATF tables. Said on the page and in the README.
+- **Terrain adjustment is a rule of thumb**, labelled as such. The flat/rolling/hilly presets are illustrative shapes, not real courses.
+- **Validation is against the tables as published, not an independent derivation**: files from the source repo (text + spreadsheet) and a third-party worked example. No official calculator comparison was possible from the box.
+- Whole-second splits: sums are exact; the price is that on some courses a split can be 1 s off its "ideal" value.
+- Not done: mile/imperial input, a pacing-chart print view, saving plans (would need storage; the brief said no login/no data).

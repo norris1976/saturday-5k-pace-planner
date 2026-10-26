@@ -126,7 +126,7 @@ test('buildPlan returns grades, splits and share text for a sample runner', () =
   assert.ok(p.target.percent > p.pb.percent);
   const t = shareText(p);
   assert.match(t, /Saturday 5K Pace Planner/); assert.match(t, /23:45/); assert.match(t, /Age grade/);
-  assert.doesNotMatch(t, /parkrun/i);
+  assert.doesNotMatch(t, /park\s?run/i);
 });
 test('buildPlan reports every validation error', () => {
   const p = buildPlan({ pb: 'x', age: '3', category: '', target: '', profile: 'custom', custom: '1,2', strategy: 'even' });

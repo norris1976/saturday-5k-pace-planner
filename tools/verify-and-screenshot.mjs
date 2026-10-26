@@ -45,7 +45,7 @@ await page.click('#copy');
 await page.waitForFunction(() => document.getElementById('copy-status').textContent.length > 0); const status = await page.textContent('#copy-status'); console.log('Copy status:', status);
 const text = await page.inputValue('#share-text');
 assert.match(text, /Saturday 5K Pace Planner/); assert.match(text, /Age grade/);
-assert.doesNotMatch(await page.content(), /parkrun/i);
+assert.doesNotMatch(await page.content(), /park\s?run/i);
 
 // custom profile + validation
 await page.selectOption('#profile', 'custom'); await page.fill('#custom', '5, -3, 10, 0, -8'); await page.selectOption('#strategy', 'even');
