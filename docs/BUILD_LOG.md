@@ -80,3 +80,10 @@ Instruction used: "Create a public repo under norris1976 and push; create a Verc
 - **Reported by Tim:** the time fields say mm:ss but he couldn't type a colon.
 - **Cause:** the fields used `inputmode="numeric"`, which shows a digits-only keypad on phones with no colon key. My headless-browser checks typed colons from a desktop keyboard, so I never saw it. Real-device behaviour was untested, which is a gap worth admitting in the issue.
 - **Fix:** the fields now format digits as you type (2430 becomes 24:30, 12430 becomes 1:24:30), and a typed colon still works. Hint text updated. Verified in headless Chrome with digit-only and colon input; 22 tests still pass.
+
+## Restyle: neutral palette, no green (Mon 26 Oct, about 13:15 to 13:35 Europe/London, about 20 minutes)
+- **Why:** Tim does not like the green. Asked for near-black, off-white and gold.
+- **What:** colour tokens in `style.css` (near-black header with a gold rule, warm off-white light theme, near-black dark theme, gold accents, buttons near-black in light and gold in dark; links ink with a gold underline in light, gold in dark so they pass AA), the share-card canvas (near-black gradient, gold top rule), `theme-color` and the favicon. No logic, markup or test changes; 22 tests pass.
+- **Check:** new `tools/check-theme.mjs` (AA contrast of every text colour pair in light and dark: worst 6.06 and 7.26; zero green-ish pixels in the page and the share card). `tools/verify-and-screenshot.mjs` passes on the live URL (0 external requests, 0 console errors). Screenshots retaken in `docs/screenshots/` (plus `light/` and `dark/`).
+- **Deployed:** `vercel deploy --prod` (the GitHub link also builds on push); live https://saturday-5k-pace-planner.vercel.app returns 200 with the new CSS.
+- **What broke:** the contrast checker first failed on hero text because the hero uses a gradient background it did not read; fixed in the checker, not the app. Two production deploys ran (an earlier command's output was cut off, so I ran it again); both identical.

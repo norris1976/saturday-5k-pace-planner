@@ -9,16 +9,17 @@ export function drawCard(canvas, plan) {
   const font = 'system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
 
   const g = c.createLinearGradient(0, 0, W, H);
-  g.addColorStop(0, '#0b3d2e'); g.addColorStop(1, '#14604a');
+  g.addColorStop(0, '#0c0c0b'); g.addColorStop(1, '#1d1c18');
   c.fillStyle = g; c.fillRect(0, 0, W, H);
+  c.fillStyle = '#f4c430'; c.fillRect(0, 0, W, 10);   // gold top rule
 
   c.textBaseline = 'alphabetic';
   c.fillStyle = '#f4c430'; c.font = `700 30px ${font}`; c.fillText('SPORT BUILDS', 70, 100);
-  c.fillStyle = '#fff'; c.font = `800 64px ${font}`; c.fillText('Saturday 5K Pace Planner', 70, 180);
+  c.fillStyle = '#f4f1e8'; c.font = `800 64px ${font}`; c.fillText('Saturday 5K Pace Planner', 70, 180);
 
   // target time
   c.fillStyle = 'rgba(255,255,255,.7)'; c.font = `600 30px ${font}`; c.fillText('TARGET', 70, 275);
-  c.fillStyle = '#fff'; c.font = `800 150px ${font}`; c.fillText(formatTime(plan.input.targetSec), 70, 410);
+  c.fillStyle = '#f4f1e8'; c.font = `800 150px ${font}`; c.fillText(formatTime(plan.input.targetSec), 70, 410);
   c.fillStyle = 'rgba(255,255,255,.85)'; c.font = `500 32px ${font}`;
   c.fillText(`${formatTime(plan.averagePaceSec)} /km average  |  5 km`, 70, 460);
 
@@ -28,7 +29,7 @@ export function drawCard(canvas, plan) {
   c.fillText('AGE GRADE (TARGET)', 100, 548);
   c.fillStyle = '#f4c430'; c.font = `800 100px ${font}`; c.fillText(`${plan.target.percent.toFixed(1)}%`, 100, 650);
   c.fillStyle = 'rgba(255,255,255,.7)'; c.font = `600 26px ${font}`; c.fillText('PB / RECENT', 560, 548);
-  c.fillStyle = '#fff'; c.font = `800 64px ${font}`; c.fillText(`${plan.pb.percent.toFixed(1)}%`, 560, 620);
+  c.fillStyle = '#f4f1e8'; c.font = `800 64px ${font}`; c.fillText(`${plan.pb.percent.toFixed(1)}%`, 560, 620);
   c.fillStyle = 'rgba(255,255,255,.8)'; c.font = `500 26px ${font}`;
   c.fillText(`${formatTime(plan.input.pbSec)}  |  ${plan.categoryLabel}, age ${plan.input.age}`, 560, 662);
 
@@ -46,7 +47,7 @@ export function drawCard(canvas, plan) {
     const rowY = y + i * 72;
     c.fillStyle = i % 2 ? 'rgba(255,255,255,.04)' : 'rgba(255,255,255,.09)';
     roundRect(c, 60, rowY, W - 120, 62, 14); c.fill();
-    c.fillStyle = '#fff'; c.font = `700 40px ${font}`;
+    c.fillStyle = '#f4f1e8'; c.font = `700 40px ${font}`;
     c.fillText(String(s.km), cols[0] + 10, rowY + 44);
     c.fillText(formatTime(s.splitSec), cols[1], rowY + 44);
     c.fillText(formatTime(s.paceSecPerMile), cols[2] + 60, rowY + 44);
