@@ -8,7 +8,7 @@ Enter a 5K PB (or recent time), your age, the age-grading category, a target tim
 
 Works for any 5K, including weekly timed runs. It runs entirely in your browser: no login, no analytics, no scraping, no network calls (the host sends a Content-Security-Policy with `connect-src 'none'`: `cloudflare/_headers` on Cloudflare Pages, `vercel.json` on Vercel).
 
-Part of **Sport Builds**, one vibe-coded sports app a week. Build notes and honest failure log: [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
+Part of **Sport Builds**, one sports app a week, built with AI. Build notes and honest failure log: [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
 
 ## Run it
 
