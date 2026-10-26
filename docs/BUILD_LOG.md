@@ -75,3 +75,8 @@ Instruction used: "Create a public repo under norris1976 and push; create a Verc
 
 ## Final entry
 - **End: 08:31** (Europe/London). Total elapsed from kickoff 08:22: about 9 minutes. Final live check after the last push: production URL 200, headless run OK, 0 external requests, 22/22 unit tests passing.
+
+## Post-launch fix: time fields on phones (Mon 26 Oct, about 08:40 UK time)
+- **Reported by Tim:** the time fields say mm:ss but he couldn't type a colon.
+- **Cause:** the fields used `inputmode="numeric"`, which shows a digits-only keypad on phones with no colon key. My headless-browser checks typed colons from a desktop keyboard, so I never saw it. Real-device behaviour was untested, which is a gap worth admitting in the issue.
+- **Fix:** the fields now format digits as you type (2430 becomes 24:30, 12430 becomes 1:24:30), and a typed colon still works. Hint text updated. Verified in headless Chrome with digit-only and colon input; 22 tests still pass.

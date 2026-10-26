@@ -21,12 +21,12 @@
       <h2>Your run</h2>
       <div class="grid">
         <label>PB or recent 5K time
-          <input id="pb" name="pb" inputmode="numeric" placeholder="24:30" value="24:30" aria-describedby="pb-hint">
-          <small id="pb-hint">mm:ss (or h:mm:ss)</small>
+          <input id="pb" name="pb" class="time-input" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="24:30" value="24:30" aria-describedby="pb-hint">
+          <small id="pb-hint">Type digits only, the colon is added for you (2430 becomes 24:30)</small>
         </label>
         <label>Target time
-          <input id="target" name="target" inputmode="numeric" placeholder="23:45" value="23:45">
-          <small>mm:ss</small>
+          <input id="target" name="target" class="time-input" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="23:45" value="23:45">
+          <small>Same format, mm:ss</small>
         </label>
         <label>Age on race day
           <input id="age" name="age" type="number" inputmode="numeric" min="8" max="99" step="1" value="42">

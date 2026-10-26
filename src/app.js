@@ -94,3 +94,14 @@ $('copy').addEventListener('click', async () => {
 });
 
 syncControls();
+
+// Time fields: phone numeric keypads have no colon, so format digits as m:ss / mm:ss / h:mm:ss while typing.
+export function formatTimeDigits(raw) {
+  const d = String(raw).replace(/\D/g, '').slice(0, 5);
+  if (d.length <= 2) return d;
+  const ss = d.slice(-2), mm = d.slice(-4, -2), h = d.slice(0, -4);
+  return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
+}
+document.querySelectorAll('.time-input').forEach((el) => {
+  el.addEventListener('input', () => { el.value = formatTimeDigits(el.value); });
+});
