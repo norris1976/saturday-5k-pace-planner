@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Saturday 5K Pace Planner</title>
+  <meta name="description" content="Plan your 5K: age-graded percentage, per-km splits for your course and a shareable result card. Works for any 5K, including weekly timed runs. Runs entirely in your browser.">
+  <meta name="theme-color" content="#0b3d2e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b3d2e'/%3E%3Ctext x='50' y='66' font-size='52' text-anchor='middle' fill='%23f4c430' font-family='sans-serif' font-weight='700'%3E5K%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="kicker">Sport Builds</p>
+    <h1>Saturday 5K Pace Planner</h1>
+    <p class="sub">Age grade, per-km splits for your course and a card to share. Works for any 5K, including weekly timed runs.</p>
+  </header>
+
+  <main>
+    <form id="form" class="card" novalidate autocomplete="off">
+      <h2>Your run</h2>
+      <div class="grid">
+        <label>PB or recent 5K time
+          <input id="pb" name="pb" inputmode="numeric" placeholder="24:30" value="24:30" aria-describedby="pb-hint">
+          <small id="pb-hint">mm:ss (or h:mm:ss)</small>
+        </label>
+        <label>Target time
+          <input id="target" name="target" inputmode="numeric" placeholder="23:45" value="23:45">
+          <small>mm:ss</small>
+        </label>
+        <label>Age on race day
+          <input id="age" name="age" type="number" inputmode="numeric" min="8" max="99" step="1" value="42">
+          <small>8 to 99</small>
+        </label>
+        <label>Age-grading category
+          <select id="category" name="category">
+            <option value="M">Men's category</option>
+            <option value="F">Women's category</option>
+          </select>
+          <small>Matches the published table</small>
+        </label>
+      </div>
+
+      <h2>Course and pacing</h2>
+      <div class="grid">
+        <label>Course profile
+          <select id="profile" name="profile">
+            <option value="flat">Flat</option>
+            <option value="rolling" selected>Rolling</option>
+            <option value="hilly">Hilly</option>
+            <option value="custom">Custom per-km elevation</option>
+          </select>
+        </label>
+        <label>Split style
+          <select id="strategy" name="strategy">
+            <option value="positive">Positive (faster start)</option>
+            <option value="even">Even</option>
+            <option value="negative" selected>Negative (faster finish)</option>
+          </select>
+        </label>
+        <label id="strength-wrap">Split strength
+          <select id="strength" name="strength">
+            <option value="subtle">Subtle (about 2% first to last km)</option>
+            <option value="standard" selected>Standard (about 4%)</option>
+            <option value="bold">Bold (about 6%)</option>
+          </select>
+        </label>
+        <label id="custom-wrap" hidden>Net metres climbed per km
+          <input id="custom" name="custom" placeholder="5, -3, 10, 0, -8" value="6, -4, 12, -2, -10">
+          <small>5 numbers, km 1 to 5. Negative = descent.</small>
+        </label>
+      </div>
+      <p class="profile-note" id="profile-note"></p>
+
+      <div id="errors" class="msg error" role="alert" hidden></div>
+      <button type="submit" class="primary">Plan my 5K</button>
+    </form>
+
+    <section id="results" class="card" hidden aria-live="polite">
+      <h2>Age grade</h2>
+      <div class="grades">
+        <div class="grade">
+          <span class="label">Target</span>
+          <span class="big" id="ag-target">--</span>
+          <span class="band" id="band-target"></span>
+        </div>
+        <div class="grade muted">
+          <span class="label">PB / recent</span>
+          <span class="big" id="ag-pb">--</span>
+          <span class="band" id="band-pb"></span>
+        </div>
+      </div>
+      <p class="detail" id="ag-detail"></p>
+      <div id="warnings" class="msg warn" hidden></div>
+
+      <h2>Splits</h2>
+      <div class="table-wrap">
+        <table id="splits">
+          <thead><tr><th>Km</th><th>Split (pace /km)</th><th>Pace /mile</th><th>Total</th><th class="elev">Elev</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="detail" id="splits-detail"></p>
+
+      <h2>Share</h2>
+      <canvas id="card" width="1080" height="1350" aria-label="Result card preview"></canvas>
+      <div class="actions">
+        <button type="button" id="download" class="primary">Download PNG card</button>
+        <button type="button" id="copy">Copy as text</button>
+      </div>
+      <p id="copy-status" class="detail" role="status"></p>
+      <textarea id="share-text" readonly rows="11" aria-label="Result as text"></textarea>
+    </section>
+
+    <section class="card about">
+      <h2>How it works</h2>
+      <ul>
+        <li><strong>Age grade</strong> = age standard &divide; your time &times; 100. The age standard is the open standard (12:49 men, 13:54 women) divided by the age factor from the 2025 road age-grade tables.</li>
+        <li><strong>Splits</strong> start from your target, tilt it for a positive, even or negative split, then re-balance each km for its elevation (about +3.3% time per 1% uphill, up to 1.8% faster per 1% downhill, capped). Whole seconds, always adding up exactly to your target.</li>
+        <li><strong>Terrain model is an approximation</strong> (a rule of thumb, not a lab result). Wind, heat and your own legs will have opinions.</li>
+        <li>Everything runs in your browser. No account, no tracking, nothing is sent anywhere.</li>
+      </ul>
+      <p class="source"><strong>Age-grade source:</strong> road running age-grade tables, 2025 edition, by Alan Jones with Tom Bernhard (approved 10 Jan 2025 by the USATF Masters Long Distance Running Council), published under CC0 1.0 at <a href="https://github.com/AlanLyttonJones/Age-Grade-Tables" rel="noopener">github.com/AlanLyttonJones/Age-Grade-Tables</a>. They continue the WMA/USATF road age-grade tables (2010, 2015, 2020). This app is not an official WMA or USATF product, and the 2025 edition was approved by USATF, not WMA.</p>
+      <p class="disclaimer"><strong>Planning aid only.</strong> This is not coaching or medical advice. Listen to your body and check with a professional before changing your training.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Sport Builds &middot; one vibe-coded sports app a week &middot; <a href="https://github.com/norris1976/saturday-5k-pace-planner" rel="noopener">source on GitHub</a></p>
+  </footer>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

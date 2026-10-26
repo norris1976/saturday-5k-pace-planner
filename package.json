@@ -1,0 +1,13 @@
+{
+  "name": "saturday-5k-pace-planner",
+  "version": "1.0.0",
+  "description": "Saturday 5K Pace Planner: age grade and per-km splits for any 5K. Runs entirely in the browser.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "gen-data": "node tools/gen-data.mjs",
+    "test": "node test/run.mjs",
+    "start": "npx --yes serve -l 5173 ."
+  }
+}
