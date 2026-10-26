@@ -72,3 +72,6 @@ Instruction used: "Create a public repo under norris1976 and push; create a Verc
 - **Validation is against the tables as published, not an independent derivation**: files from the source repo (text + spreadsheet) and a third-party worked example. No official calculator comparison was possible from the box.
 - Whole-second splits: sums are exact; the price is that on some courses a split can be 1 s off its "ideal" value.
 - Not done: mile/imperial input, a pacing-chart print view, saving plans (would need storage; the brief said no login/no data).
+
+## Final entry
+- **End: 08:31** (Europe/London). Total elapsed from kickoff 08:22: about 9 minutes. Final live check after the last push: production URL 200, headless run OK, 0 external requests, 22/22 unit tests passing.
